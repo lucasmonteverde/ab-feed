@@ -1,0 +1,19 @@
+{
+	"browser": true,
+	"devel": true,
+	"jquery": true,
+	"node": true,
+	"curly": false,
+	"eqeqeq": true,
+	"latedef": true,
+	"quotmark": "single",
+	"strict": true,
+	"undef": true,
+	"unused": true,
+
+	"globals": {
+		"$": true,
+		"dataLayer": true,
+		"google": true
+	}
+}

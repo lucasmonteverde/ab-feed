@@ -1,0 +1,26 @@
+{
+  "name": "ab-feed",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cheerio": "^0.19.0",
+    "compression": "^1.6.1",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "feedparser": "^1.1.4",
+    "moment": "^2.11.1",
+    "morgan": "^1.6.1",
+    "request": "^2.69.0"
+  },
+  "devDependencies": {
+    "dotenv": "^2.0.0",
+    "jshint": "^2.9.1",
+    "gulp": "^3.9.0",
+    "gulp-jshint": "^2.0.0",
+    "gulp-nodemon": "^2.0.6",
+    "jshint-stylish": "^2.1.0"
+  }
+}
