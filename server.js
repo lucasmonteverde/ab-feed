@@ -4,7 +4,7 @@ var express = require('express'),
 	request = require('request'),
 	logger = require('morgan'),
 	compression = require('compression'),
-	fs = require('fs'),
+	fs = require('fs-extra'),
 	path = require('path'),
 	FeedParser = require('feedparser'),
 	moment = require('moment'),
@@ -128,7 +128,7 @@ var API = function(res, url, filepath, filename){
 		}
 		
 		stream
-			.pipe(fs.createWriteStream(filepath))
+			.pipe(fs.createOutputStream(filepath))
 			.on('error', function(error) {
 				console.error('response stream error', error);
 			})
@@ -140,6 +140,9 @@ var API = function(res, url, filepath, filename){
 };
 
 process.env.PWD = process.cwd();
+
+console.log('cwd', process.env.PWD);
+console.log('__dirname', __dirname);
 
 app.get('/file/*', function(req, res){
 	

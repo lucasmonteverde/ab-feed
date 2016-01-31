@@ -6,14 +6,15 @@
     "start": "node server.js"
   },
   "engines": {
-     "node": ">=4.0.0"
-   },
+    "node": ">=4.0.0"
+  },
   "dependencies": {
     "cheerio": "^0.19.0",
     "compression": "^1.6.1",
     "ejs": "^2.4.1",
     "express": "^4.13.4",
     "feedparser": "^1.1.4",
+    "fs-extra": "^0.26.5",
     "moment": "^2.11.1",
     "morgan": "^1.6.1",
     "request": "^2.69.0"
