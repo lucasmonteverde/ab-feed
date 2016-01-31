@@ -148,7 +148,7 @@ app.get('/file/*', function(req, res){
 	fs.access(filepath, fs.F_OK, function(err){
 		
 		if( err ) {
-			//API( res, req.params[0], filepath, filename );
+			API( res, req.params[0], filepath, filename );
 		} else {
 			res.redirect('/files/' + filename);
 		}
