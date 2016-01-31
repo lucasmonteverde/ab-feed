@@ -53,7 +53,7 @@ app.get(['/','/page/:page'], function(req, res){
 
 	feedparser
 		.on('error', function(error) {
-			console.error(error);
+			console.error('feedparser error', error);
 		})
 		.on('readable', function() {
 	
@@ -127,21 +127,26 @@ var API = function(res, url, filepath, filename){
 			return this.emit('error', new Error('Bad status code'));
 		}
 		
-		stream.pipe(fs.createWriteStream(filepath)).on('close', function(){
-			res.redirect('/files/' + filename);
-		});
+		stream
+			.pipe(fs.createWriteStream(filepath))
+			.on('error', function(error) {
+				console.error('response stream error', error);
+			})
+			.on('close', function(){
+				res.redirect('/files/' + filename);
+			});
 	});
 	
 };
 
-//process.env.PWD = process.cwd();
+process.env.PWD = process.cwd();
 
 app.get('/file/*', function(req, res){
 	
 	var filename = req.params[0].split('/');
 	filename = filename[ filename.length - 1 ];
 	
-	var filepath = 'public/files/' + filename; //path.join('public/files', filename);
+	var filepath = path.join(process.env.PWD, 'public/files', filename);
 	
 	console.log(filepath);
 	
