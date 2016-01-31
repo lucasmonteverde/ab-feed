@@ -5,6 +5,7 @@ var express = require('express'),
 	logger = require('morgan'),
 	compression = require('compression'),
 	fs = require('fs'),
+	path = require('path'),
 	FeedParser = require('feedparser'),
 	moment = require('moment'),
 	cheerio = require('cheerio'),
@@ -16,7 +17,7 @@ app.use(express.static('public', {
 	maxAge: 86400000
 }));
 
-app.set('views', __dirname + '/views');
+app.set('views', 'views');
 app.set('view engine', 'html');
 
 app.engine('.html', require('ejs').renderFile);
@@ -133,19 +134,21 @@ var API = function(res, url, filepath, filename){
 	
 };
 
+//process.env.PWD = process.cwd();
+
 app.get('/file/*', function(req, res){
 	
 	var filename = req.params[0].split('/');
 	filename = filename[ filename.length - 1 ];
 	
-	var filepath = __dirname + '/public/files/' + filename;
+	var filepath = 'public/files/' + filename; //path.join('public/files', filename);
 	
-	//console.log(filepath);
+	console.log(filepath);
 	
 	fs.access(filepath, fs.F_OK, function(err){
 		
 		if( err ) {
-			API( res, req.params[0], filepath, filename );
+			//API( res, req.params[0], filepath, filename );
 		} else {
 			res.redirect('/files/' + filename);
 		}
