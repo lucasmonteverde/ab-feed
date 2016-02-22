@@ -169,7 +169,7 @@ app.get('/export', function(req, res){
 	
 	archive.bulk([{
 		expand: true,
-		cwd: 'public/css',
+		cwd: 'public/files',
 		src: ['**/*']
 	}]);
 	
