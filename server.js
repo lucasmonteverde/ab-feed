@@ -4,11 +4,13 @@ var express = require('express'),
 	request = require('request'),
 	logger = require('morgan'),
 	compression = require('compression'),
+	serveIndex = require('serve-index'),
 	fs = require('fs-extra'),
 	path = require('path'),
 	FeedParser = require('feedparser'),
 	moment = require('moment'),
 	cheerio = require('cheerio'),
+	archiver = require('archiver'),
 	app = express();
 
 app.use(logger('dev'));
@@ -21,6 +23,10 @@ app.set('views', 'views');
 app.set('view engine', 'html');
 
 app.engine('.html', require('ejs').renderFile);
+
+app.use('/files', serveIndex('public/files', {
+	icons: true
+}));
 
 var formatImageServer = function( src ){
 	return /file/ + src.replace('//t', '//img').replace('thumbs/', 'images/');
@@ -139,19 +145,12 @@ var API = function(res, url, filepath, filename){
 	
 };
 
-process.env.PWD = process.cwd();
-
-console.log('cwd', process.env.PWD);
-console.log('__dirname', __dirname);
-
 app.get('/file/*', function(req, res){
 	
 	var filename = req.params[0].split('/');
 	filename = filename[ filename.length - 1 ];
 	
-	var filepath = path.join(process.env.PWD, 'public/files', filename);
-	
-	console.log(filepath);
+	var filepath = path.join(__dirname, 'public/files', filename);
 	
 	fs.access(filepath, fs.F_OK, function(err){
 		
@@ -162,6 +161,21 @@ app.get('/file/*', function(req, res){
 		}
 	});
 	
+});
+
+app.get('/export', function(req, res){
+	
+	var archive = archiver('zip');
+	
+	archive.bulk([{
+		expand: true,
+		cwd: 'public/css',
+		src: ['**/*']
+	}]);
+	
+	archive.pipe(res);
+	
+	archive.finalize();
 });
 
 app.listen( process.env.PORT || 3000 );
