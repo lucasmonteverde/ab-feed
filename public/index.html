@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>List View</title>
+	
+	<link rel="stylesheet" href="/css/style.css">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.11/vue.min.js"></script>
+</head>
+<body>
+	<div id="app" class="main" v-cloak>
+		
+		<article class="clearfix" v-for="feed in feeds">
+			
+			<aside>
+				<h3><a :href="feed.link" target="_blank">{{ feed.title }}</a></h3>
+				
+				<time :datetime="feed.date">{{ feed.dateFormat }}</time>
+				<span class="comments">| Comments: {{ feed.comments }}</span>
+				
+				<figure>
+					<img :src="feed.cover" alt="" class="cover" />
+					<figcaption>{{ feed.description }}</figcaption>
+				</figure>
+				
+				<span class="categories">
+					<strong>Categories:</strong>
+					<template v-for="category in feed.categories">
+						<a href="#" :title="category">{{ category }}</a>,
+					</template>
+				</span>
+					
+				<div class="content" v-html="feed.content"></div>
+			</aside>
+			
+			<div class="images">
+				<template v-for="image in feed.images">
+					<img :src="image" alt="" />
+				</template>
+			</div>
+			
+		</article>
+		
+	</div>
+	
+	<script>
+		var API_ENDPOINT = '/feed/';
+
+		var app = new Vue({
+			el: '#app',
+
+			data: {
+				loading: false,
+				page: 1,
+				feeds: []
+			},
+
+			created() {
+				this.fetchData();
+
+				window.addEventListener('scroll', function() {
+					if (!app.loading && app.getDistFromBottom() < 500) {
+						app.page++;
+					}
+				});
+			},
+
+			watch: {
+				page: 'fetchData',
+			},
+
+			methods: {
+				fetchData() {
+					var self = this;
+					
+					var xhr = new XMLHttpRequest();
+					xhr.open('GET', API_ENDPOINT + self.page);
+					xhr.onload = function() {
+						self.feeds = self.feeds.concat(JSON.parse(xhr.responseText));
+						self.loading = false;
+					}
+					xhr.send();
+					self.loading = true;
+				},
+
+				getDistFromBottom() {
+					return Math.max(document.body.offsetHeight - (window.pageYOffset + window.innerHeight), 0);
+				}
+			}
+		});
+	</script>
+</body>
+</html>
