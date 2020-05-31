@@ -1,32 +1,29 @@
 {
   "name": "ab-feed",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
-    "start": "node server.js"
+    "start": "node --optimize_for_size --max_old_space_size=460 --gc_interval=100 server.js",
+    "dev": "nodemon -r dotenv/config server.js"
   },
   "engines": {
-    "node": ">=4.0.0"
+    "node": ">=12.x.x"
   },
   "dependencies": {
-    "archiver": "^0.21.0",
-    "cheerio": "^0.20.0",
-    "compression": "^1.6.1",
-    "ejs": "^2.4.1",
-    "express": "^4.13.4",
-    "feedparser": "^1.1.4",
-    "fs-extra": "^0.26.5",
-    "moment": "^2.11.2",
-    "morgan": "^1.7.0",
-    "request": "^2.69.0",
-    "serve-index": "^1.7.3"
+    "archiver": "^4.0.1",
+    "axios": "^0.19.2",
+    "cheerio": "^0.22.0",
+    "compression": "^1.7.4",
+    "date-fns": "^2.14.0",
+    "express": "^4.17.1",
+    "feedparser": "^2.2.10",
+    "http-errors": "^1.7.3",
+    "morgan": "^1.10.0",
+    "serve-index": "^1.9.1"
   },
   "devDependencies": {
-    "dotenv": "^2.0.0",
-    "jshint": "^2.9.1",
-    "gulp": "^3.9.1",
-    "gulp-jshint": "^2.0.0",
-    "gulp-nodemon": "^2.0.6",
-    "jshint-stylish": "^2.1.0"
+    "dotenv": "^8.2.0",
+    "eslint": "^7.1.0",
+    "nodemon": "^2.0.4"
   }
 }
