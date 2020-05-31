@@ -9,8 +9,6 @@ const client = axios.create({
 });
 
 function API(url, params = {}) {
-	console.info('API', url);
-
 	return client.get(url, {
 		params,
 		responseType: 'stream'
